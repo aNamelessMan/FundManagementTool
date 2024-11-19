@@ -17,16 +17,30 @@ class App extends Component {
     connect((msg) => {
       console.log("New Message")
       this.setState(prevState => ({
-        // funds: [...this.state.funds, msg]
-        funds: [msg]
+        funds: [...this.state.funds, msg]
+        // 为啥下面这么写不行，输入了 Funds块的显示不更新
+        // funds: [msg]
       }))
       console.log(this.state);
     });
   }
 
-  send(event) {
+  sendAddMsg(event) {
     if (event.keyCode === 13) {
-      sendMsg(event.target.value);
+      var msg = {};
+      msg["msgType"] = "Add";
+      msg["msgData"] = event.target.value;
+      sendMsg(JSON.stringify(msg));
+      event.target.value = "";
+    }
+  }
+
+  sendDelMsg(event) {
+    if (event.keyCode === 13) {
+      var msg = {};
+      msg["msgType"] = "Del";
+      msg["msgData"] = event.target.value;
+      sendMsg(JSON.stringify(msg));
       event.target.value = "";
     }
   }
@@ -36,7 +50,8 @@ class App extends Component {
       <div className="App">
         <Header />
         <Funds funds={this.state.funds} />
-        <Input send={this.send} />
+        <Input send={this.sendAddMsg} doc="添加" />
+        <Input send={this.sendDelMsg} doc="删除" />
       </div>
     );
   }
