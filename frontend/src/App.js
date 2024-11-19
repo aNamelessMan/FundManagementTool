@@ -19,6 +19,7 @@ class App extends Component {
       this.setState(prevState => ({
         funds: [...this.state.funds, msg]
         // 为啥下面这么写不行，输入了 Funds块的显示不更新
+        // 看了后端响应没问题
         // funds: [msg]
       }))
       console.log(this.state);
